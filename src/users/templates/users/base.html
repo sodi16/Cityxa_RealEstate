@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+	<title>Cityxa Real Estate Agent</title>
+    {% endblock %}
+	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+
+</head>
+<body>
+	{% include 'users/header_page.html' %}
+	<main>
+    {% block content %}
+	{% if not user.is_authenticated %}
+	<section class="register/login">
+      <a href="{% url 'login' %}">Login</a>
+      <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+	</section>
+		<div class="search-page">
+<!--			<a href="{% url 'search_property' %}">Search property</a>-->
+			{% include 'property/search_bar_hidden.html' %}
+		</div>
+		<section class="intro">
+			<h1>Find Your Dream Home</h1>
+			<p>Our team of expert agents can help you find the perfect home in the right location.</p>
+		</section>
+		<section class="featured-properties">
+			<h2>Featured Properties</h2>
+			<div class="property-container">
+				{% for post in posts %}
+					<div class="property">
+						<a href="{% url 'display_property' pk=post.pk %}">
+						<img src="{{ post.images.all.0.image.url }}" alt="Property {{post.adress.city}}" style="width: 400px; height: 250px;"></a>
+						<h3>{{post.display_rent_buy}} a {{ post.num_rooms }}-bedrooms {{post.display_type_of_property}}
+							in {{ post.adress.city }}</h3>
+						<p>Price: ${{ post.price }}</p>
+					</div>
+				{% endfor %}
+			</div>
+		</section>
+		<section class="why-choose-us">
+			<h2>Why Choose Us?</h2>
+			<ul>
+				<li>Experienced agents with extensive knowledge of the local real estate market</li>
+				<li>Large selection of properties in the most sought-after neighborhoods</li>
+				<li>Personalized service to help you find the perfect home for your needs and budget</li>
+				<li>State-of-the-art technology to streamline the buying process</li>
+			</ul>
+		</section>
+		<section class="contact-us">
+			<h2>Contact Us</h2>
+			<form>
+				<label for="name">Name:</label>
+				<input type="text" id="name" name="name">
+				<label for="email">Email:</label>
+				<input type="email" id="email" name="email">
+				<label for="message">Message:</label>
+				<textarea id="message" name="message"></textarea>
+				<button type="submit">Send</button>
+			</form>
+		</section>
+    {% endblock %}
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+>	</main>
+
+	<footer>
+       {% if user.is_authenticated %}
+           <div class="footer-content"> You are connected as: {{ request.user }}. <a href="{% url 'logout' %}">Disconnect</a></div>
+        {% endif %}
+
+		<p>&copy; 2023 Cityxa Real Estate Agent
+    </footer>
+  </body>
+</html>

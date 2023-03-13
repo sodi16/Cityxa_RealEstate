@@ -1,0 +1,20 @@
+{% extends 'users/base.html' %}
+{% block content %}
+<h2>Add property</h2>
+
+{{ message }}
+<div class="form-container">
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <label for="images">Upload images:</label>
+        <input name="images" id="images" type="file" multiple>
+        <br>
+        {% include 'property/search_bar.html' %}
+    </form>
+
+</div>
+{% endblock %}

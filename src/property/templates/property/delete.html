@@ -1,0 +1,22 @@
+{% extends 'users/base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete property</title>
+</head>
+<body>
+
+    <form method="post" class="form-container">
+        {% csrf_token %}
+    <h3>Are you sure you want to delete the property?</h3>
+        <img src="{{ property.images.all.0.image.url }}" alt="Property {{property.adress.city}}" style="width: 400px; height: 250px;"></a>
+        <h4>{{property.adress}}</h4>
+        <p>Price: ${{ property.price }}</p>
+        <input type="submit" value="Delete">
+    </form>
+</body>
+</html>
+{% endblock %}
