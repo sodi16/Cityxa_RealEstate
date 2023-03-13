@@ -1,0 +1,34 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+    <h2>Profil page of {{user|title }}</h2>
+    <div>
+        <h3>Informations:</h3>
+            {{ user.username }}
+            {{ user.phone_number }}
+            {% for role in user.role.all %}
+                {{ role.id }}
+            {% endfor %}
+
+        <a href="{% url 'update_profile' pk=user.pk %}">Edit profile</a>
+        <h3>Properties</h3>
+        <section class="featured-properties">
+			<div class="property-container">
+				{% for prop in user.properties.all %}
+					<div class="property">
+						<a href="{% url 'display_property' pk=prop.pk %}">
+						<img src="{{ prop.images.all.0.image.url }}" alt="Property {{prop.adress.city}}" style="width: 400px; height: 250px;">
+                        Edit</a>
+						<p>{{prop.display_rent_buy}} a {{ prop.num_rooms }}-bedrooms {{prop.display_type_of_property}}
+							in {{ prop.adress.city }}</p>
+						<p>Price: ${{ prop.price }}</p>
+
+					</div>
+				{% endfor %}
+			</div>
+		</section>
+
+    </div>
+    <a href="{% url 'add_property' %}">Add property</a>
+{% endblock %}
+

@@ -1,0 +1,278 @@
+{% extends 'users/base.html' %}
+{% block content %}
+
+<style>
+/* Global styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+}
+
+/* Header styles */
+.header {
+  background-color: #235dab;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 36px;
+}
+
+/* Main content styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: stretch;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.house-image {
+  flex: 0 0 50%;
+  padding: 20px;
+}
+
+.house-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+.house-info {
+  flex: 0 0 calc(50% - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.house-info h2 {
+  margin: 0;
+  font-size: 36px;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.house-info p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.top-info {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.top-info p:first-of-type {
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.top-info p:not(:first-of-type) {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.bottom-info {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid #ccc;
+}
+
+.bottom-info p {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.bottom-info a {
+  display: inline-block;
+  font-size: 18px;
+  color: #235dab;
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+.bottom-info a:hover {
+  text-decoration: underline;
+}
+
+/* Yad2-specific styles */
+.yad2-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.yad2-container h2 {
+  margin: 20px;
+  font-size: 36px;
+  line-height: 1.2;
+}
+
+.yad2-container .item {
+  width: calc(33.33% - 20px);
+  margin: 20px;
+  padding: 20px;
+  background
+}
+
+.slideshow-navigation {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+}
+
+.slideshow-navigation a {
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+  font-size: 30px;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+.slideshow-navigation .previous-slide {
+  margin-right: 10px;
+}
+.slideshow-navigation .next-slide {
+  margin-left: 10px;
+}
+
+.next-slide a {
+  position: fixed;
+  right: 0px;
+}
+
+.slideshow-image img {
+	height: 297;
+	width: 495;
+}
+</style>
+
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<div class="container">
+		<div class="house-info">
+			<h2>{{property.display_type_of_property}} for {{property.display_rent_buy}}</h2>
+			<div class="top-info">
+				<p>Price: ${{property.price}}/month</p>
+				<p>Address:
+					<b>
+					{{property.adress.num_apt}}
+					{% if property.adress.street %}
+						{{property.adress.street}},
+					{% endif %}
+					{% if property.adress.city %}
+						{{property.adress.city}}
+					{% endif %}
+					{% if property.adress.zip_code %}
+						{{property.adress.zip_code}}
+					{% endif %}
+					</b>
+				</p>
+				<p>Bedrooms: <b>{{property.num_rooms}}</b></p>
+				{% if property.area %}
+				<p>Superficie: <b>{{property.area}} sqm</b></p>
+				{% endif %}
+				<p>Type of property: <b>{{property.display_type_of_property}}</b></p>
+			</div>
+			<div class="bottom-info">
+				<p>{{property.description}}</p>
+
+				{% if user.pk == property.owner.pk %}
+					<a href="{% url 'delete_property' pk=property.pk %}">Delete</a>
+					<a href="{% url 'update_property' pk=property.pk %}">Update</a>
+				{% else %}
+					<p><b>Contact informations:</b></p>
+					<p>
+						Owner:
+						{% if property.owner.first_name and property.owner.last_name %}
+							{{ property.owner.first_name}} {{property.owner.last_name}}
+						{% else %}
+							{{property.owner.username}}
+						{% endif %}
+					</p>
+					<p>Contact: {{property.owner.phone_number}}</p>
+				{% endif %}
+			</div>
+		</div>
+		<div class="house-image">
+			<div class="slideshow">
+                <div class="slideshow-image">
+                  <img src="{{ images.0 }}" alt="Slideshow Image">
+                </div>
+                <div class="slideshow-navigation">
+                  <a href="#" class="previous-slide">&lt;</a>
+                  <a href="#" class="next-slide">&gt;</a>
+                </div>
+            </div>
+		</div>
+	</div>
+
+<script>
+  var images = {{ images|safe }};
+  var currentSlide = 0;
+  var slideshowImage = document.querySelector('.slideshow-image img');
+
+  function showSlide(index) {
+    currentSlide = (index + images.length) % images.length;
+    slideshowImage.src = images[currentSlide];
+  }
+
+  function nextSlide() {
+    showSlide(currentSlide + 1);
+  }
+
+  function previousSlide() {
+    showSlide(currentSlide - 1);
+  }
+
+  document.querySelector('.previous-slide').addEventListener('click', function(e) {
+    e.preventDefault();
+    previousSlide();
+  });
+
+  document.querySelector('.next-slide').addEventListener('click', function(e) {
+    e.preventDefault();
+    nextSlide();
+  });
+
+  showSlide(currentSlide);
+</script>
+
+{% endblock %}
+

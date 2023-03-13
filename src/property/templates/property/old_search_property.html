@@ -1,0 +1,77 @@
+{% load custom_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Search for your next property</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+</head>
+
+<body>
+{% include 'users/header_page.html' %}
+
+    <div class="container mt-5">
+        <h2>Search for your next property</h2>
+    </div>
+
+<!--Button to add advanced research-->
+<div class="form-container">
+    <form  method="post" class="form-container">
+    {% csrf_token %}
+    <div class="property_price_form">
+        <p>Price:</p>
+        <p>Min: {{ form.min_price }}</p>
+        <p>Max: {{ form.max_price }}</p>
+    </div>
+
+    <div class="num_rooms_form">
+        <p>Number of rooms:</p>
+        <p>Min: {{ form.min_num_rooms }}</p>
+        <p>Max: {{ form.max_num_rooms }}</p>
+    </div>
+
+    <input type="submit" value="Search">
+
+    {% if display_advanced_research %}
+        <p> swimming_pool: {{ form.swimming_pool }}</p>
+        <p> furniture: {{ form.furniture }}</p>
+        <p> elevator: {{ form.elevator }}</p>
+        <p> balcony: {{ form.balcony }}</p>
+        <p> renovated: {{ form.renovated }}</p>
+        <p> storage: {{ form.storage }}</p>
+        <p> disable access: {{ form.disable_access }}</p>
+        <p> safe room: {{ form.safe_room }}</p>
+        <p> central air conditioner: {{ form.central_air_conditioner }}</p>
+        <p> quiet neighborhood: {{ form.quiet_neighborhood }}</p>
+    {% endif %}
+</form >
+
+    {% include 'property/autocomplete_adress.html' %}
+</div>
+
+
+<!-- Added map-->
+    <div id="map" style="height: 300px"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{api_key}}"></script>
+    <script>
+      function initMap() {
+        var myLatLng = {lat: 48.8566, lng: 2.3522};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 15,
+          center: myLatLng
+        });
+        var marker = new google.maps.Marker({
+          position: myLatLng,
+          map: map,
+          title: 'Paris'
+        });
+      }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{api_key}}&callback=initMap"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,101 @@
+{% load static %}
+
+{% include 'users/header_page.html' %}
+
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>Map</title>
+    <style>
+      .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 500px;
+    width: 100%;
+  }
+
+  .map {
+    width: 600px;
+    height: 500px;
+  }
+
+  .description {
+    width: calc(100% - 600px);
+    height: 500px;
+    overflow-y: auto;
+  }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    {% include 'property/search_bar_hidden.html' %}
+    https://maps.googleapis.com/maps/api/js?key={{api_key}}&callback=initMap
+    <div style="display:none">
+        <img src="{% static 'images/house_marker.png' %}" id="house_marker">`
+    </div>
+    <div class="container">
+        <div id="map">
+            <script>
+                function initMap() {
+                    house_marker = document.getElementById("house_marker").src;
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 15,
+                        center: {lat: {{ latitude }}, lng: {{ longitude }}},
+                        disableDefaultUI: true,
+                        styles: [
+                            {
+                                featureType: 'poi',
+                                stylers: [{ visibility: 'off' }]
+                            },
+                            {
+                                featureType: 'transit',
+                                elementType: 'labels.icon',
+                                stylers: [{ visibility: 'off' }]
+                            }
+                        ]
+                    });
+                    var markers = [];
+                    {% for obj in properties %}
+                        var point{{ forloop.counter }} = {
+                            lat: {{ obj.adress.latitude }},
+                            lng: {{ obj.adress.longitude }},
+                            info: '<h3>{{obj.adress}}</h3>' +
+                            '<a href="{% url 'display_property' pk=obj.pk %}">'+
+                            '<img src="{{ obj.images.all.0.image.url }}" alt="Property {{obj.adress.city}}" style="width: 130px; height: 85px;"></a>' +
+                            '<p><b>Bedrooms:</b> {{obj.num_rooms}} | <b>Area:</b> {{obj.area}}sqm | <b>Type</b>: {{obj.display_type_of_property}}</p>'
+                        };
+                        markers.push(createMarker(point{{ forloop.counter }}));
+                    {% endfor %}
+                    function createMarker(point) {
+                        var marker = new google.maps.Marker({
+                            position: point,
+                            map: map,
+                            icon: house_marker
+                        });
+                        marker.addListener('click', function() {
+                            infoWindow.setContent(point.info);
+                            infoWindow.open(map, marker);
+                        });
+                        return marker;
+                    }
+                    var infoWindow = new google.maps.InfoWindow();
+                }
+            </script>
+            <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key={{api_key}}&callback=initMap">
+            </script>
+        </div>
+        <div class="description">
+            {% for prop in properties %}
+                {{ prop.adress }}
+            {% endfor %}
+        </div>
+    </div>
+</body>

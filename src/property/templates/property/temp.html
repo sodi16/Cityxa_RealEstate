@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>My Map</title>
+    <style>
+      #map {
+        height: 500px;
+        width: 600px;
+        float: left;
+      }
+      #object-info {
+        height: 500px;
+        width: calc(100% - 600px);
+        overflow-y: scroll;
+        padding: 10px;
+        float: left;
+        border-left: 1px solid #ccc;
+      }
+      .object-info-item {
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+      .object-info-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      .object-info-description {
+        margin-bottom: 5px;
+      }
+      .object-info-location {
+        font-style: italic;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{api_key}}"></script>
+    <script>
+      function initMap() {
+        const map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 37.7749, lng: -122.4194},
+          zoom: 15,
+        });
+
+        {% for object in properties %}
+        const marker{{ forloop.counter }} = new google.maps.Marker({
+          position: {lat: {{ object.adress.latitude }}, lng: {{ object.adress.longitude }}},
+          map: map,
+          title: "",
+        });
+
+        marker{{ forloop.counter }}.addListener('click', function() {
+          displayObjectInfo({{ object|json_encode }});
+        });
+        {% endfor %}
+      }
+
+      function displayObjectInfo(object) {
+        const infoElement = document.getElementById('object-info');
+
+        const infoItem = document.createElement('div');
+        infoItem.classList.add('object-info-item');
+
+        // Create a title element for the object
+        const titleElement = document.createElement('div');
+        titleElement.classList.add('object-info-title');
+        titleElement.textContent = object.name;
+        infoItem.appendChild(titleElement);
+
+        // Create a description element for the object
+        const descriptionElement = document.createElement('div');
+        descriptionElement.classList.add('object-info-description');
+        descriptionElement.textContent = object.description;
+        infoItem.appendChild(descriptionElement);
+
+        // Create a location element for the object
+        const locationElement = document.createElement('div');
+        locationElement.classList.add('object-info-location');
+        locationElement.textContent = `Location: ${object.latitude}, ${object.longitude}`;
+        infoItem.appendChild(locationElement);
+
+        // Append the info item to the object info element
+        infoElement.appendChild(infoItem);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="object-info"></div>
+    <script>
+      initMap();
+    </script>
+  </body>
+</html>

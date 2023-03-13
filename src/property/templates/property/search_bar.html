@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Search for your next property</title>
+  	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+</head>
+
+<body>
+<form method="post" class="search-container">
+      {% csrf_token %}
+      <label for="autocomplete">Enter your address:</label>
+      <input id="autocomplete" type="text" placeholder="Enter your address" autocomplete="off">
+      <label for="country">Country:</label>
+      <input id="country" name="country" value="{{country}}"><br>
+      <label for="locality" >City:</label>
+      <input id="locality" type="text" name="locality" value="{{locality}}">
+      <label for="route" >Street name:</label>
+      <input id="route" type="text" name="route" value="{{route}}">
+      <label for="street_number">Street number:</label>
+      <input id="street_number" type="text" name="street_number" value="{{street_number}}" required><br>
+      <label for="administrative_area_level_1">State:</label>
+      <input id="administrative_area_level_1" value="{{administrative_area_level_1}}" name="administrative_area_level_1"><br>
+      <label for="latitude" hidden>Latitude:</label>
+      <input id="latitude" type="hidden" name="latitude" ><br>
+      <label for="longitude" hidden>Longitude:</label>
+      <input id="longitude" type="hidden" name="longitude" ><br>
+      <label for="place" hidden>place:</label>
+      <input id="place" type="hidden" name="place" ><br>
+      <button type="submit" name="autocomplete_adress"><i class="fa fa-search"></i>Search...</button>
+    </form>
+  <script src="https://maps.googleapis.com/maps/api/js?key={{api_key}}&libraries=places"></script>
+  <script>
+      var input = document.getElementById('autocomplete');
+      var autocomplete = new google.maps.places.Autocomplete(input);
+
+      autocomplete.addListener('place_changed', function() {
+        var place = autocomplete.getPlace();
+        var streetNumber = '';
+        var streetName = '';
+        var city = '';
+        var state = '';
+        var country = '';
+        var latitude = '';
+        var longitude = '';
+
+        for (var i = 0; i < place.address_components.length; i++) {
+          var component = place.address_components[i];
+          if (component.types.includes('street_number')) {
+            streetNumber = component.short_name;
+          } else if (component.types.includes('route')) {
+            streetName = component.short_name;
+          } else if (component.types.includes('locality')) {
+            city = component.short_name;
+          } else if (component.types.includes('administrative_area_level_1')) {
+            state = component.short_name;
+          } else if (component.types.includes('country')) {
+            country = component.short_name;
+          }
+            else if (component.types.includes('latitude')) {
+            country = component.short_name;
+          }
+            else if (component.types.includes('longitude')) {
+            country = component.short_name;
+          }
+        }
+
+        latitude = place.geometry.location.lat();
+        longitude = place.geometry.location.lng();
+
+        document.getElementById('place').value = place;
+        document.getElementById('street_number').value = streetNumber;
+        document.getElementById('route').value = streetName;
+        document.getElementById('locality').value = city;
+        document.getElementById('administrative_area_level_1').value = state;
+        document.getElementById('country').value = country;
+        document.getElementById('latitude').value = latitude;
+        document.getElementById('longitude').value = longitude;
+      });
+    </script>
+
+</body>
