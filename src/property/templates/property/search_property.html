@@ -6,8 +6,8 @@
 <head>
     <meta charset="utf-8">
     <title>Map</title>
-    <style>
-      .container {
+        <style>
+  .container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -19,6 +19,10 @@
   .map {
     width: 600px;
     height: 500px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
   }
 
   .description {
@@ -27,75 +31,137 @@
     overflow-y: auto;
   }
 
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
+
+    .property-search {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      overflow: hidden;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .property-details {
+      flex: 1;
+    }
+
+    .property-image {
+      margin-left: 20px;
+    }
+
+    .property-image img {
+      width: 250px;
+      height: auto;
+    }
+
+
+    .property-details h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .property-details p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    .property-details .adress {
+      font-style: italic;
+    }
+    .back-button {
+     padding: 10px 20px;
+     border-radius: 8px;
+     box-shadow: 2px 2px 2px 1px rgb(131, 131, 219) ;
+     border: 1px solid gray;
+     font-size: 15px;
+ }
     </style>
 </head>
 <body>
-    {% include 'property/search_bar_hidden.html' %}
-    https://maps.googleapis.com/maps/api/js?key={{api_key}}&callback=initMap
-    <div style="display:none">
-        <img src="{% static 'images/house_marker.png' %}" id="house_marker">`
-    </div>
-    <div class="container">
-        <div id="map">
-            <script>
-                function initMap() {
-                    house_marker = document.getElementById("house_marker").src;
-                    var map = new google.maps.Map(document.getElementById('map'), {
-                        zoom: 15,
-                        center: {lat: {{ latitude }}, lng: {{ longitude }}},
-                        disableDefaultUI: true,
-                        styles: [
-                            {
-                                featureType: 'poi',
-                                stylers: [{ visibility: 'off' }]
-                            },
-                            {
-                                featureType: 'transit',
-                                elementType: 'labels.icon',
-                                stylers: [{ visibility: 'off' }]
-                            }
-                        ]
-                    });
-                    var markers = [];
-                    {% for obj in properties %}
-                        var point{{ forloop.counter }} = {
-                            lat: {{ obj.adress.latitude }},
-                            lng: {{ obj.adress.longitude }},
-                            info: '<h3>{{obj.adress}}</h3>' +
-                            '<a href="{% url 'display_property' pk=obj.pk %}">'+
-                            '<img src="{{ obj.images.all.0.image.url }}" alt="Property {{obj.adress.city}}" style="width: 130px; height: 85px;"></a>' +
-                            '<p><b>Bedrooms:</b> {{obj.num_rooms}} | <b>Area:</b> {{obj.area}}sqm | <b>Type</b>: {{obj.display_type_of_property}}</p>'
-                        };
-                        markers.push(createMarker(point{{ forloop.counter }}));
-                    {% endfor %}
-                    function createMarker(point) {
-                        var marker = new google.maps.Marker({
-                            position: point,
-                            map: map,
-                            icon: house_marker
-                        });
-                        marker.addListener('click', function() {
-                            infoWindow.setContent(point.info);
-                            infoWindow.open(map, marker);
-                        });
-                        return marker;
-                    }
-                    var infoWindow = new google.maps.InfoWindow();
+
+{% include 'property/search_bar_hidden.html' %}
+
+<div style="display:none">
+    <img src="{% static 'images/house_marker.png' %}" id="house_marker">`
+</div>
+<div class="container" style="display: flex;">
+<div id="map" style="position: fixed; height: 500px; width: 650px;"></div>
+
+    <script>
+    function initMap() {
+        var mapOptions = {
+            center: { lat: {{latitude}}, lng: {{longitude}} },
+            zoom: 8,
+            styles: [
+                {
+                    featureType: 'poi',
+                    stylers: [{ visibility: 'off' }]
+                },
+                {
+                    featureType: 'transit',
+                    elementType: 'labels.icon',
+                    stylers: [{ visibility: 'off' }]
                 }
-            </script>
-            <script async defer
-                src="https://maps.googleapis.com/maps/api/js?key={{api_key}}&callback=initMap">
-            </script>
-        </div>
-        <div class="description">
-            {% for prop in properties %}
-                {{ prop.adress }}
-            {% endfor %}
-        </div>
+            ]
+        };
+
+        function createMarker(point) {
+            var marker = new google.maps.Marker({
+                position: point,
+                map: map,
+                icon: {
+                    url: document.getElementById('house_marker').src
+                }
+
+            });
+            marker.addListener('click', function() {
+                infoWindow.setContent(point.info);
+                infoWindow.open(map, marker);
+            });
+            return marker;
+        }
+
+        var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        var infoWindow = new google.maps.InfoWindow();
+
+        var markers = [];
+        {% for obj in properties %}
+            var point{{ forloop.counter }} = {
+                lat: {{ obj.adress.latitude }},
+                lng: {{ obj.adress.longitude }},
+                info: '<h3>{{obj.adress}}</h3>' +
+                '<a href="{% url 'display_property' pk=obj.pk %}">'+
+                '<img src="{{ obj.images.all.0.image.url }}" alt="Property {{obj.adress.city}}" style="width: 130px; height: 85px;"></a>' +
+                '<p><b>Bedrooms:</b> {{obj.num_rooms}} | <b>Area:</b> {{obj.area}}sqm | <b>Type</b>: {{obj.display_type_of_property}}</p>'
+            };
+            markers.push(createMarker(point{{ forloop.counter }}));
+        {% endfor %}
+
+    }
+</script>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnS3spzxsJEEvQG6kVRHpPeRIyiQB0X_8&callback=initMap"></script>
+
+  <div style="flex: 1; padding: 0 10px; overflow-y: auto;">
+    {% for obj in properties %}
+    <div class="property-search">
+      <div class="property-details">
+        <h3>{{ obj.adress }}</h3>
+        <p class="adress">{{ obj.adress }}</p>
+          <p class="price"><b>Price:</b>{{ obj.price }}</p>
+          <p class="num-rooms"><b>Number of rooms:</b>{{ obj.num_rooms }} rooms</p>
+          <p class="area"><b>Area:</b>{{ obj.area }} sqm</p>
+          <p class="area"><b>Description:</b>{{ obj.description | truncatechars:65 }} </p>
+      </div>
+      <div class="property-image">
+          <a href="{% url 'display_property' pk=obj.pk %}">
+            <img src="{{ obj.images.all.0.image.url }}" alt="{{ obj.title }}">
+          </a>
+      </div>
     </div>
+    {% endfor %}
+  </div>
+</div>
 </body>
