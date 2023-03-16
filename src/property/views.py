@@ -79,7 +79,7 @@ class display_property(DetailView):
 
 
 def search_property(request):
-    form = PropertyForm()
+    form = AddPropertyForm()
     context = {'form': form}
     if request.method == 'POST':
         breakpoint()

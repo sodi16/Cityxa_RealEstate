@@ -14,7 +14,6 @@ body {
   background-color: #f2f2f2;
 }
 
-/* Header styles */
 .header {
   background-color: #235dab;
   color: #fff;
@@ -27,7 +26,6 @@ body {
   font-size: 36px;
 }
 
-/* Main content styles */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -145,7 +143,7 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 20%;
+  width: 40%;
   height: 100%;
   display: flex;
   justify-content: space-between;
@@ -178,16 +176,12 @@ body {
   right: 0px;
 }
 
-.slideshow-image img {
-	height: 297;
-	width: 495;
-}
 </style>
 
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<div class="container">
 		<div class="house-info">
-			<h2>{{property.display_type_of_property}} for {{property.display_rent_buy}}</h2>
+			<h2>{{property.display_type_of_property}} to {{property.display_rent_buy}}</h2>
 			<div class="top-info">
 				<p>Price: ${{property.price}}/month</p>
 				<p>Address:
@@ -209,6 +203,78 @@ body {
 				<p>Superficie: <b>{{property.area}} sqm</b></p>
 				{% endif %}
 				<p>Type of property: <b>{{property.display_type_of_property}}</b></p>
+
+				<div class="advanced-params">
+					<label for="elevator">Elevator</label>
+					{% if property.renovated %}
+						<input type="checkbox" value="closed" checked id="elevator" onclick="return false">
+					{% else %}
+						<input type="checkbox" value="closed"  id="elevator" onclick="return false">
+					{% endif %}
+
+					<label for="swimming_pool">Swimming-pool</label>
+					{% if property.swimming_pool %}
+						<input type="checkbox" value="closed" checked id="swimming_pool" onclick="return false">
+					{% else %}
+						<input type="checkbox" value="closed"  id="swimming_pool" onclick="return false">
+					{% endif %}
+
+					<label for="balcony">Balcony</label>
+					{% if property.balcony %}
+						<input type="checkbox" value="closed" checked id="balcony" onclick="return false">
+					{% else %}
+						<input type="checkbox" value="closed"  id="balcony" onclick="return false">
+					{% endif %}
+
+					<label for="renovated">Renovated</label>
+					{% if property.renovated %}
+						<input type="checkbox" value="closed" checked id="renovated" onclick="return false">
+					{% else %}
+						<input type="checkbox" value="closed"  id="renovated" onclick="return false">
+					{% endif %}
+
+					<label for="disable_access">Disable access</label>
+					{% if property.disable_access %}
+						<input type="checkbox" value="closed" checked id="disable_access" onclick="return false">
+					{% else %}
+						<input type="checkbox" value="closed"  id="disable_access" onclick="return false">
+					{% endif %}
+
+					<label for="safe_room">Safe room</label>
+					{% if property.safe_room %}
+						<input type="checkbox" value="closed" checked id="safe_room" onclick="return false">
+					{% else %}
+						<input type="checkbox" value="closed"  id="safe_room" onclick="return false">
+					{% endif %}
+
+					<label for="storage">Storage</label>
+					{% if property.storage %}
+						<input type="checkbox" value="closed" checked id="storage" onclick="return false">
+					{% else %}
+						<input type="checkbox" value="closed"  id="storage" onclick="return false">
+					{% endif %}
+
+					<label for="central_air_conditioner">Central air conditioner</label>
+					{% if property.central_air_conditioner %}
+						<input type="checkbox" value="closed" checked id="central_air_conditioner" onclick="return false">
+					{% else %}
+						<input type="checkbox" value="closed"  id="central_air_conditioner" onclick="return false">
+					{% endif %}
+
+					<label for="quiet_neighborhood">Quiet Neighborhood</label>
+					{% if property.quiet_neighborhood %}
+						<input type="checkbox" value="closed" checked id="quiet_neighborhood" onclick="return false">
+					{% else %}
+						<input type="checkbox" value="closed"  id="quiet_neighborhood" onclick="return false">
+					{% endif %}
+				</div>
+
+<!--				<p>Type of property: <b>{{property.display_type_of_property}}</b></p>-->
+<!--				<p>Type of property: <b>{{property.display_type_of_property}}</b></p>-->
+<!--				<p>Type of property: <b>{{property.display_type_of_property}}</b></p>-->
+<!--				<p>Type of property: <b>{{property.display_type_of_property}}</b></p>-->
+<!--				<p>Type of property: <b>{{property.display_type_of_property}}</b></p>-->
+<!--				<p>Type of property: <b>{{property.display_type_of_property}}</b></p>-->
 			</div>
 			<div class="bottom-info">
 				<p>{{property.description}}</p>
@@ -233,7 +299,7 @@ body {
 		<div class="house-image">
 			<div class="slideshow">
                 <div class="slideshow-image">
-                  <img src="{{ images.0 }}" alt="Slideshow Image">
+                  <img src="{{ images.0 }}" alt="Slideshow Image" style="width: 500px; height: auto;border-radius: 15px;">
                 </div>
                 <div class="slideshow-navigation">
                   <a href="#" class="previous-slide">&lt;</a>

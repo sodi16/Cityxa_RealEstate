@@ -77,10 +77,36 @@
      border: 1px solid gray;
      font-size: 15px;
  }
+
+    .filter-form {
+      display: flex;
+      width: 90%;
+      height: 50px;
+      margin: 0 auto;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid gray;
+
+    }
+
+    .filter-form label {
+      margin-right: 10px;
+    }
+
+    .filter-form button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
     </style>
 </head>
 <body>
-
 {% include 'property/search_bar_hidden.html' %}
 
 <div style="display:none">
@@ -144,7 +170,8 @@
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnS3spzxsJEEvQG6kVRHpPeRIyiQB0X_8&callback=initMap"></script>
 
-  <div style="flex: 1; padding: 0 10px; overflow-y: auto;">
+
+  <div style="flex: 1; padding: 0 10px; overflow-y: auto; height: 500px;">
     {% for obj in properties %}
     <div class="property-search">
       <div class="property-details">
@@ -164,4 +191,23 @@
     {% endfor %}
   </div>
 </div>
+<form method="get">
+    <div class="filter-form">
+    <label for="filter-by-type">Filter by Type:</label>
+    <select  name="type[]" id="filter-by-type">
+      <option value="">-- Select Type --</option>
+    </select>
+
+<!--        {{ form.id_type_of_property}}-->
+<!--        {{ form.num_rooms}}-->
+
+    <label for="filter-by-price">Price:</label>
+    <input type="checkbox" name="price[]" value="0-500" id="filter-by-price">
+
+    <label for="filter-by-bedroom">Num of bedroom:</label>
+    <input type="radio" name="bedroom" value="1" id="filter-by-bedroom">
+
+    <button type="submit" class="filter-button">Filter</button>
+  </div>
+  </form>
 </body>
