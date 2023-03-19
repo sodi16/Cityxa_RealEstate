@@ -23,22 +23,35 @@ class AddAdressForm(forms.ModelForm):
 
 class AddPropertyForm(forms.ModelForm):
     adress_form = AddAdressForm()
+    min_price = forms.IntegerField(min_value=1, required=False)
+    max_price = forms.IntegerField(max_value=9999999, required=False)
+
+    min_num_rooms = forms.IntegerField(min_value=1, required=False)
+    max_num_rooms = forms.IntegerField(max_value=20, required=False)
 
     class Meta:
         model = Property
         exclude = ['owner', 'posted_date', 'adress', 'clicked_time', 'images', 'longitude', 'latitude']
 
-        # widgets = {
-        #     'furniture': forms.HiddenInput(),
-        #     'build_year': forms.HiddenInput(),
-        #     'elevator': forms.HiddenInput(),
-        #     'balcony': forms.HiddenInput(),
-        #     'swimming_pool': forms.HiddenInput(),
-        #     'renovated': forms.HiddenInput(),
-        #     'storage': forms.HiddenInput(),
-        #     'disable_access': forms.HiddenInput(),
-        #     'safe_room': forms.HiddenInput(),
-        #     'central_air_conditioner': forms.HiddenInput(),
-        #     'quiet_neighborhood': forms.HiddenInput()
-        # }
+        widgets = {
+            'furniture': forms.CheckboxInput(),
+            'build_year': forms.DateTimeField(),
+            'elevator': forms.CheckboxInput(),
+            'balcony': forms.CheckboxInput(),
+            'swimming_pool': forms.CheckboxInput(),
+            'renovated': forms.CheckboxInput(),
+            'storage': forms.CheckboxInput(),
+            'disable_access': forms.CheckboxInput(),
+            'safe_room': forms.CheckboxInput(),
+            'central_air_conditioner': forms.CheckboxInput(),
+            'quiet_neighborhood': forms.CheckboxInput(),
+        }
 
+        labels = {
+            'id_type_of_property': 'Property type',
+            'id_rent_buy': 'Rent/Buy',
+            'min_price': 'Min price',
+            'max_price': 'Max price',
+            'min_num_rooms': 'Min bedrooms',
+            'max_num_rooms': 'Max bedrooms'
+        }

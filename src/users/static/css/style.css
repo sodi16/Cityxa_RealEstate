@@ -107,11 +107,17 @@ nav a:hover {
 .property {
 	width: 30%;
 	margin-bottom: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    overflow: hidden;
+    border-radius: 10px;
+    background: #fff;
 }
 
 .property img {
 	width: 290px;
 	height: 350px;
+	object-fit: cover;
 }
 
 .property h3 {
@@ -261,3 +267,100 @@ background-color: red;
 .searched_houses {
     display: inline-block;
 }
+
+.classic_button {
+     padding: 10px 20px;
+     border-radius: 8px;
+     box-shadow: 2px 2px 2px 1px rgb(131, 131, 219) ;
+     border: 1px solid gray;
+     font-size: 15px;
+     width: 100px;
+ }
+
+ .profil-page {
+  background-color: #fff;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+.houses {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.houses > div {
+  flex: 45%;
+  margin-bottom: 10px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+}
+
+.profile-header img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.profile-header h1 {
+  font-size: 36px;
+}
+
+.profile-details {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.profile-details li {
+  list-style: none;
+  margin-right: 30px;
+  margin-bottom: 20px;
+}
+
+.profile-details li span {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* Houses styles */
+.house-card {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+
+.house-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.house-card h2 {
+  font-size: 24px;
+  margin: 20px;
+}
+
+.house-card p {
+  margin: 20px;
+}
+
+@media (min-width: 768px) {
+  .house-card {
+    flex-basis: calc(50% - 10px);
+    margin-right: 20px;
+  }
+
+  .house-card:last-child {
+    margin-right: 0;
+  }

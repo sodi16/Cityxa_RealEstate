@@ -34,6 +34,7 @@ class User(AbstractUser):
     role = models.ManyToManyField(Role, default=1)
     birthdate = models.DateField(null=True, blank=True)
     properties = models.ManyToManyField('property.Property', blank=True)
+    profil_picture = models.ImageField('property.ImageDescription', upload_to='profil_pictures', default=f'profil_pictures/default_profile_picture.jpg')
 
     # add fields when creating super user
     REQUIRED_FIELDS = ['phone_number']

@@ -55,7 +55,7 @@
 
 <!-- Added map-->
     <div id="map" style="height: 300px"></div>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfAlKpzRZjZbn8Vm4KXfILdlNGVu3IXIA"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{api_key}}"></script>
     <script>
       function initMap() {
         var myLatLng = {lat: 48.8566, lng: 2.3522};
@@ -70,7 +70,7 @@
         });
       }
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfAlKpzRZjZbn8Vm4KXfILdlNGVu3IXIA&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{api_key}}&callback=initMap"></script>
 
 </body>
 </html>
