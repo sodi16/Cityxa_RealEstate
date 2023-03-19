@@ -1,13 +1,11 @@
 from django.contrib.auth import get_user
 from django.shortcuts import render, redirect
 from property.models import Property
-from property.forms import AddPropertyForm
-from env.api_key import api_key
 
 
 def home(request):
     last_posts = None
-    context = {'api_key': api_key}
+    context = {}
     user = get_user(request)
     if user.is_authenticated and user.adress:
         context['user'] = user
@@ -22,17 +20,6 @@ def home(request):
     context['posts'] = last_posts[:rows_of_posts*3]
 
     if request.method == 'POST':
-        # form = AddPropertyForm
-        # context['form'] = form
-        # context['street_number'] = request.POST['street_number']
-        # context['route'] = request.POST['route']
-        # context['locality'] = request.POST['locality']
-        # context['administrative_area_level_1'] = request.POST['administrative_area_level_1']
-        # context['country'] = request.POST['country']
-        # context['latitude'] = request.POST['latitude']
-        # context['longitude'] = request.POST['longitude']
-        # context['properties'] = Property.objects.all()
-
         # delete objects of type Property because he is not json serializable
         del context['posts']
 
@@ -45,8 +32,6 @@ def home(request):
         return redirect('search_property')
 
         # return render(request, 'property/search_property.html', context)
-    else:
-        print('dla merde')
     return render(request, 'users/base.html', context)
 
 

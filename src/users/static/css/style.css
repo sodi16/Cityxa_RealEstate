@@ -293,6 +293,11 @@ background-color: red;
   justify-content: space-between;
 }
 
+.houses > div {
+  flex: 45%;
+  margin-bottom: 10px;
+}
+
 .profile-header {
   display: flex;
   align-items: center;

@@ -1,9 +1,10 @@
 
 # Cityxa - Real Estate Django Website
 
-This is a Django-based real estate website designed to showcase properties for sale or rent. It allows users to search for properties using various filters such as location, price, number of bedrooms, property type and more. The project includes two applications: one for managing user accounts and another for managing properties.
+This is a Django-based real estate website designed to showcase properties for sale or rent.<br/>
+It allows users to search for properties/houses using various filters like location, price, number of bedrooms, property type, superficie and more. The project includes two applications: one for managing user accounts and another for managing properties.
 <br/>
-I also use Google API for maps display and real adress search on globe.
+I use Google API for maps display and real adress, places search on globe.
 </br>
 I invite you to watch the short video I added above to see more options and possibilities of the website. 
 
@@ -19,11 +20,11 @@ The website includes the following features:
 
 - User authentication and authorization for secure access
 - User roles management with different levels of access
-- Integration of Google Maps API for displaying property locations on map
-- PostgreSQL database to store property and users informations
-- Static files for website styling
+- Integration of Google Maps API for displaying properties locations on map
 - Search function to filter properties based on various criteria
-- Forms for adding, updating, and deleting properties using CRUD operations
+- PostgreSQL database to store property, users informations and photos descriptions
+- Static files for website styling
+- Forms for adding, updating, and deleting properties and users using CRUD operations
 
 
 ###Installation:
@@ -32,6 +33,7 @@ The website includes the following features:
 2. Install all dependencies
 3. Install PostgreSQL
 4. Run Migrations
-5. Get a google api key for maps display  
+5. Get a google api key for maps display, and add it on: ..\Cityxa\src\env  
 6. Run server
-" 
+
+

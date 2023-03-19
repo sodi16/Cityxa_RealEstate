@@ -129,15 +129,6 @@ select {
 }
 
 
-
-
-
-
-
-
-
-
-
 .multiselect {
   width: 200px;
 }
@@ -176,7 +167,6 @@ select {
 </head>
 <body>
 {% include 'property/search_bar_hidden.html' %}
-
 <div style="display:none">
     <img src="{% static 'images/house_marker.png' %}" id="house_marker">`
 </div>
@@ -243,7 +233,7 @@ select {
     {% for obj in properties %}
     <div class="property-search">
       <div class="property-details">
-        <h3>{{ obj.adress }}</h3>
+        <h3>{{ obj.adress }} - {{ obj.display_rent_buy }}</h3>
         <p class="adress">{{ obj.adress }}</p>
           <p class="price"><b>Price:</b>{{ obj.price }}</p>
           <p class="num-rooms"><b>Number of rooms:</b>{{ obj.num_rooms }} rooms</p>

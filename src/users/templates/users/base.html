@@ -14,12 +14,6 @@
 	{% include 'users/header_page.html' %}
 	<main>
     {% block content %}
-	{% if not user.is_authenticated %}
-	<section class="register/login">
-      <a href="{% url 'login' %}">Login</a>
-      <a href="{% url 'register' %}">Register</a>
-    {% endif %}
-	</section>
 		<div class="search-page">
 <!--			<a href="{% url 'search_property' %}">Search property</a>-->
 			{% include 'property/search_bar_hidden.html' %}

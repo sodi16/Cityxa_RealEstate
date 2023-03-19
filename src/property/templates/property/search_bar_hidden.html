@@ -6,6 +6,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Search for your next property</title>
+
+</head>
+
+<body>
     <style>
   .search-container {
   display: flex;
@@ -45,9 +49,6 @@
 .search-container button:hover {
 background-color: #f0b3ff;
 }</style>
-</head>
-
-<body>
   <script src="https://maps.googleapis.com/maps/api/js?key={{api_key}}&libraries=places"></script>
     <form method="post" class="search-container">
       {% csrf_token %}

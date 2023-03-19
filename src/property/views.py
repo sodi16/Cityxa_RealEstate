@@ -3,24 +3,20 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView, CreateView, DeleteView, UpdateView
 from property.models import Property, ImageDescription
-from users.forms import AdressForm, PropertyForm
-from cityxa import settings
-from property.forms import AddPropertyForm, AddAdressForm, AddPhotoForm
+from property.forms import AddPropertyForm, AddAdressForm
 from users.models import Adress
-from env.api_key import api_key
 from django.db.models import F, Func
 
-
-def temp(request):
-    if request.method == "POST":
-        print()
-        breakpoint()
-    return render(request, 'property/search_bar.html')
 
 
 def add_property(request):
     property_form = AddPropertyForm()
-    context = {'form': property_form, 'api_key': api_key}
+    del property_form.fields['min_price']
+    del property_form.fields['max_price']
+    del property_form.fields['min_num_rooms']
+    del property_form.fields['max_num_rooms']
+
+    context = {'form': property_form}
     if request.method == 'POST':
         property_form = AddPropertyForm(request.POST)
         long, lat = request.POST['longitude'], request.POST['latitude']
@@ -55,10 +51,6 @@ def add_property(request):
             context.update({'message': 'Property correctly added'})
             return render(request, 'property/add_property.html', context)
     return render(request, 'property/add_property.html', context)
-
-
-def autocomplete(request):
-    return render(request, 'property/map.html', {'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY})
 
 
 class display_property(DetailView):
@@ -166,7 +158,6 @@ def search_property(request, context={}):
         if context_data:
             form = AddPropertyForm
             context['form'] = form
-            context['api_key'] = api_key
             context['street_number'] = context_data.get('street_number')
             context['route'] = context_data.get('route')
             context['locality'] = context_data.get('locality')
@@ -191,7 +182,6 @@ class CreatePropertyView(CreateView):
     form_class = AddPropertyForm
     template_name = 'property/add_property.html'
     success_url = reverse_lazy("home")
-    extra_context = {'api_key': api_key}
 
 
 class DeletePropertyView(DeleteView):
