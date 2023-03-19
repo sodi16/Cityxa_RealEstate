@@ -23,6 +23,11 @@ class AddAdressForm(forms.ModelForm):
 
 class AddPropertyForm(forms.ModelForm):
     adress_form = AddAdressForm()
+    min_price = forms.IntegerField(min_value=1, required=False)
+    max_price = forms.IntegerField(max_value=9999999, required=False)
+
+    min_num_rooms = forms.IntegerField(min_value=1, required=False)
+    max_num_rooms = forms.IntegerField(max_value=20, required=False)
 
     class Meta:
         model = Property
@@ -30,7 +35,7 @@ class AddPropertyForm(forms.ModelForm):
 
         widgets = {
             'furniture': forms.CheckboxInput(),
-            'build_year': forms.CheckboxInput(),
+            'build_year': forms.DateTimeField(),
             'elevator': forms.CheckboxInput(),
             'balcony': forms.CheckboxInput(),
             'swimming_pool': forms.CheckboxInput(),
@@ -40,8 +45,13 @@ class AddPropertyForm(forms.ModelForm):
             'safe_room': forms.CheckboxInput(),
             'central_air_conditioner': forms.CheckboxInput(),
             'quiet_neighborhood': forms.CheckboxInput(),
-
-            'id_type_of_property': forms.CheckboxSelectMultiple(),
-            'num_rooms': forms.CheckboxSelectMultiple(),
         }
 
+        labels = {
+            'id_type_of_property': 'Property type',
+            'id_rent_buy': 'Rent/Buy',
+            'min_price': 'Min price',
+            'max_price': 'Max price',
+            'min_num_rooms': 'Min bedrooms',
+            'max_num_rooms': 'Max bedrooms'
+        }

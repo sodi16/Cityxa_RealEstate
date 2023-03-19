@@ -8,6 +8,7 @@ from cityxa import settings
 from property.forms import AddPropertyForm, AddAdressForm, AddPhotoForm
 from users.models import Adress
 from env.api_key import api_key
+from django.db.models import F, Func
 
 
 def temp(request):
@@ -78,11 +79,111 @@ class display_property(DetailView):
         return context
 
 
-def search_property(request):
-    form = AddPropertyForm()
-    context = {'form': form}
-    if request.method == 'POST':
-        breakpoint()
+def filter_property(request):
+    id_type_of_property = request.GET.get('id_type_of_property')
+    id_rent_buy = request.GET.get('id_rent_buy')
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+    min_rooms = request.GET.get('min_num_rooms')
+    max_rooms = request.GET.get('max_num_rooms')
+    furniture = request.GET.get('furniture')
+    elevator = request.GET.get('elevator')
+    balcony = request.GET.get('balcony')
+    renovated = request.GET.get('renovated')
+    storage = request.GET.get('storage')
+    disable_access = request.GET.get('disable_access')
+    safe_room = request.GET.get('safe_room')
+    central_air_conditioner = request.GET.get('central_air_conditioner')
+    quiet_neighborhood = request.GET.get('quiet_neighborhood')
+
+    properties = Property.objects.all()
+
+    if id_type_of_property:
+        properties = properties.filter(id_type_of_property=int(id_type_of_property))
+
+    if id_rent_buy:
+        properties = properties.filter(id_rent_buy=int(id_rent_buy))
+
+    if min_price:
+        properties = properties.filter(price__gte=min_price)
+
+    if max_price:
+        properties = properties.filter(price__lte=max_price)
+
+    if min_rooms:
+        properties = properties.filter(num_rooms__gte=min_rooms)
+
+    if max_rooms:
+        properties = properties.filter(num_rooms__lte=max_rooms)
+
+    if furniture:
+        properties = properties.filter(furniture=int(furniture))
+
+    if elevator:
+        properties = properties.filter(elevator=int(elevator))
+
+    if balcony:
+        properties = properties.filter(balcony=balcony)
+
+    if renovated:
+        properties = properties.filter(renovated=renovated)
+
+    if storage:
+        properties = properties.filter(storage=storage)
+
+    if disable_access:
+        properties = properties.filter(disable_access=disable_access)
+
+    if safe_room:
+        properties = properties.filter(safe_room=safe_room)
+
+    if central_air_conditioner:
+        properties = properties.filter(central_air_conditioner=central_air_conditioner)
+
+    if quiet_neighborhood:
+        properties = properties.filter(quiet_neighborhood=quiet_neighborhood)
+
+
+    return properties
+
+
+def get_closes_properties(long, lat, distance_coordinate=0.05):
+    """
+    Get the houses that are close to the given adress
+    """
+    properties = Property.objects.annotate(diff=Func(F('adress__longitude') - long, function='ABS')).filter(diff__lte=distance_coordinate)
+    properties = properties.annotate(diff=Func(F('adress__latitude') - lat, function='ABS')).filter(diff__lte=distance_coordinate)
+    return properties
+
+
+def search_property(request, context={}):
+    if request.method == 'GET':
+        context_data = request.session.get('context_data')
+        if 'filter-form' in request.GET:
+            list_property = filter_property(request)
+            context['properties'] = list_property
+
+        if context_data:
+            form = AddPropertyForm
+            context['form'] = form
+            context['api_key'] = api_key
+            context['street_number'] = context_data.get('street_number')
+            context['route'] = context_data.get('route')
+            context['locality'] = context_data.get('locality')
+            context['administrative_area_level_1'] = context_data.get('administrative_area_level_1')
+            context['country'] = context_data.get('country')
+            context['latitude'] = context_data['latitude']
+            context['longitude'] = context_data['longitude']
+            context['properties'] = get_closes_properties(float(context_data['longitude']), float(context_data['latitude']))
+            context['user'] = get_user(request)
+
+            # Clear the data from the session
+            del request.session['context_data']
+            request.session.save()
+
+        else:
+            print('Enter here when clickin on properties form menu')
+
     return render(request, 'property/search_property.html', context)
 
 

@@ -104,6 +104,74 @@
       cursor: pointer;
     }
 
+.filter-on-map {
+    background: #fff;
+    border: 2px solid #f0b3ff;
+    border-radius: 50px;
+
+}
+
+.form-group {
+  display: inline-block;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+select {
+  width: 100px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.multiselect {
+  width: 200px;
+}
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  width: 100%;
+  font-weight: bold;
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+#checkboxes {
+  display: none;
+  border: 1px #dadada solid;
+}
+
+#checkboxes label {
+  display: block;
+}
+
+#checkboxes label:hover {
+  background-color: #1e90ff;
+}
+
     </style>
 </head>
 <body>
@@ -191,23 +259,89 @@
     {% endfor %}
   </div>
 </div>
-<form method="get">
-    <div class="filter-form">
-    <label for="filter-by-type">Filter by Type:</label>
-    <select  name="type[]" id="filter-by-type">
-      <option value="">-- Select Type --</option>
-    </select>
 
-<!--        {{ form.id_type_of_property}}-->
-<!--        {{ form.num_rooms}}-->
-
-    <label for="filter-by-price">Price:</label>
-    <input type="checkbox" name="price[]" value="0-500" id="filter-by-price">
-
-    <label for="filter-by-bedroom">Num of bedroom:</label>
-    <input type="radio" name="bedroom" value="1" id="filter-by-bedroom">
-
-    <button type="submit" class="filter-button">Filter</button>
+<div class="filter-on-map">
+<form method="get" class="form-inline" name="filter-form">
+  <div class="form-group">
+    <label for="{{form.id_rent_buy.id_for_label}}">&nbsp;&nbsp;{{form.id_rent_buy.label}}</label>
+    &nbsp;&nbsp;{{form.id_rent_buy}}
   </div>
-  </form>
+
+  <div class="form-group">
+    <label for="{{form.id_type_of_property.id_for_label}}">{{form.id_type_of_property.label}}</label>
+    {{form.id_type_of_property}}
+  </div>
+
+  <div class="form-group">
+    <label for="{{form.min_price.id_for_label}}">{{form.min_price.label}}</label>
+    {{form.min_price}}
+  </div>
+
+  <div class="form-group">
+    <label for="{{form.max_price.id_for_label}}">{{form.max_price.label}}</label>
+    {{form.max_price}}
+  </div>
+
+  <div class="form-group">
+    <label for="{{form.min_num_rooms.id_for_label}}">{{form.min_num_rooms.label}}</label>
+    {{form.min_num_rooms}}
+  </div>
+
+  <div class="form-group">
+    <label for="{{form.max_num_rooms.id_for_label}}">{{form.max_num_rooms.label}}</label>
+    {{form.max_num_rooms}}
+  </div>
+
+
+      <script>
+        var expanded = false;
+
+        function showCheckboxes() {
+          var checkboxes = document.getElementById("checkboxes");
+          if (!expanded) {
+            checkboxes.style.display = "block";
+            expanded = true;
+          } else {
+            checkboxes.style.display = "none";
+            expanded = false;
+          }
+        }
+      </script>
+
+        <div class="form-group">
+          <div class="selectBox" onclick="showCheckboxes()">
+            <select>
+              <option>Advanced option</option>
+            </select>
+            <div class="overSelect"></div>
+          </div>
+          <div id="checkboxes">
+            <label for="furniture">
+              <input type="checkbox" id="furniture" />Furniture: {{form.furniture}}</label>
+            <label for="elevator">
+              <input type="checkbox" id="elevator" />Elevator: {{form.elevator}}</label>
+            <label for="balcony">
+              <input type="checkbox" id="balcony" />Balcony: {{form.balcony}}</label>
+            <label for="swimming_pool">
+              <input type="checkbox" id="swimming_pool" />Swimming pool: {{form.swimming_pool}}</label>
+            <label for="renovated">
+              <input type="checkbox" id="renovated" />Renovated: {{form.renovated}}</label>
+            <label for="storage">
+              <input type="checkbox" id="storage" />Storage: {{form.storage}}</label>
+            <label for="disable_access">
+              <input type="checkbox" id="disable_access" />Disable access: {{form.disable_access}}</label>
+            <label for="safe_room">
+              <input type="checkbox" id="safe_room" />Safe room: {{form.safe_room}}</label>
+            <label for="central_air_conditioner">
+              <input type="checkbox" id="central_air_conditioner"/>Central air conditioner: {{form.central_air_conditioner}}</label>
+            <label for="quiet_neighborhood">
+              <input type="checkbox" id="quiet_neighborhood" />Quiet neighborhood: {{form.quiet_neighborhood}}</label>
+          </div>
+        </div>
+
+    <input type="submit" name="filter-form">
+
+</form>
+</div>
+
 </body>
