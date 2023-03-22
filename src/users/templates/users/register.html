@@ -1,0 +1,16 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+    <h1>Register Page</h1>
+    <div class="form-container">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{ adress_form.as_p }}
+        {% if form.errors %}
+            <div class="error">{{ form.errors }}</div>
+        {% endif %}
+       <input type="submit" value="submit">
+    </form>
+    </div>
+{% endblock %}

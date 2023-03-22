@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<title>Cityxa Real Estate Agent</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+
+</head>
+<body>
+<header>
+		<div class="logo">
+			<a href="{% url 'home' %}">
+				<img src="{% static 'images/logo_cityxa.jpeg' %}" alt="Cityxa Real Estate Agent">
+			</a>
+		</div>
+		<nav>
+			<ul>
+				<li><a href="{% url 'home' %}">Home</a></li>
+				<li><a href="{% url 'search_property' %}">Properties</a></li>
+				{% if not user.is_authenticated %}
+					<li><a href="{% url 'login' %}">Login</a></li>
+					<li><a href="{% url 'register' %}">Register</a></li>
+				{% else %}
+					<li><a href="{% url 'profil_page' pk=user.pk %}">Profil</a></li>
+					<li><a href="{% url 'logout' %}">Disconnect</a></li>
+				{% endif %}
+			</ul>
+		</nav>
+	</header>
+<form>
+ <input class="classic_button" type="button" value="Back" onclick="history.back()">
+</form>
+{% block content %}{% endblock %}
+</body>
+</html>

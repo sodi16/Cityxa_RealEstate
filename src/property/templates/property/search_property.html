@@ -1,0 +1,337 @@
+{% load static %}
+
+{% include 'users/header_page.html' %}
+
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>Map</title>
+        <style>
+  .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 500px;
+    width: 100%;
+  }
+
+  .map {
+    width: 600px;
+    height: 500px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+
+  .description {
+    width: calc(100% - 600px);
+    height: 500px;
+    overflow-y: auto;
+  }
+
+
+    .property-search {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      overflow: hidden;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .property-details {
+      flex: 1;
+    }
+
+    .property-image {
+      margin-left: 20px;
+    }
+
+    .property-image img {
+      width: 250px;
+      height: auto;
+    }
+
+
+    .property-details h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .property-details p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    .property-details .adress {
+      font-style: italic;
+    }
+    .back-button {
+     padding: 10px 20px;
+     border-radius: 8px;
+     box-shadow: 2px 2px 2px 1px rgb(131, 131, 219) ;
+     border: 1px solid gray;
+     font-size: 15px;
+ }
+
+    .filter-form {
+      display: flex;
+      width: 90%;
+      height: 50px;
+      margin: 0 auto;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid gray;
+
+    }
+
+    .filter-form label {
+      margin-right: 10px;
+    }
+
+    .filter-form button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+.filter-on-map {
+    background: #fff;
+    border: 2px solid #f0b3ff;
+    border-radius: 50px;
+
+}
+
+.form-group {
+  display: inline-block;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+select {
+  width: 100px;
+}
+
+
+.multiselect {
+  width: 200px;
+}
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  width: 100%;
+  font-weight: bold;
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+#checkboxes {
+  display: none;
+  border: 1px #dadada solid;
+}
+
+#checkboxes label {
+  display: block;
+}
+
+#checkboxes label:hover {
+  background-color: #1e90ff;
+}
+
+    </style>
+</head>
+<body>
+{% include 'property/search_bar_hidden.html' %}
+<div style="display:none">
+    <img src="{% static 'images/house_marker.png' %}" id="house_marker">`
+</div>
+<div class="container" style="display: flex;">
+<div id="map" style="position: fixed; height: 500px; width: 650px;"></div>
+
+    <script>
+    function initMap() {
+        var mapOptions = {
+            center: { lat: {{latitude}}, lng: {{longitude}} },
+            zoom: 8,
+            styles: [
+                {
+                    featureType: 'poi',
+                    stylers: [{ visibility: 'off' }]
+                },
+                {
+                    featureType: 'transit',
+                    elementType: 'labels.icon',
+                    stylers: [{ visibility: 'off' }]
+                }
+            ]
+        };
+
+        function createMarker(point) {
+            var marker = new google.maps.Marker({
+                position: point,
+                map: map,
+                icon: {
+                    url: document.getElementById('house_marker').src
+                }
+
+            });
+            marker.addListener('click', function() {
+                infoWindow.setContent(point.info);
+                infoWindow.open(map, marker);
+            });
+            return marker;
+        }
+
+        var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        var infoWindow = new google.maps.InfoWindow();
+
+        var markers = [];
+        {% for obj in properties %}
+            var point{{ forloop.counter }} = {
+                lat: {{ obj.adress.latitude }},
+                lng: {{ obj.adress.longitude }},
+                info: '<h3>{{obj.adress}}</h3>' +
+                '<a href="{% url 'display_property' pk=obj.pk %}">'+
+                '<img src="{{ obj.images.all.0.image.url }}" alt="Property {{obj.adress.city}}" style="width: 130px; height: 85px;"></a>' +
+                '<p><b>Bedrooms:</b> {{obj.num_rooms}} | <b>Area:</b> {{obj.area}}sqm | <b>Type</b>: {{obj.display_type_of_property}}</p>'
+            };
+            markers.push(createMarker(point{{ forloop.counter }}));
+        {% endfor %}
+
+    }
+</script>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnS3spzxsJEEvQG6kVRHpPeRIyiQB0X_8&callback=initMap"></script>
+
+
+  <div style="flex: 1; padding: 0 10px; overflow-y: auto; height: 500px;">
+    {% for obj in properties %}
+    <div class="property-search">
+      <div class="property-details">
+        <h3>{{ obj.adress }} - {{ obj.display_rent_buy }}</h3>
+        <p class="adress">{{ obj.adress }}</p>
+          <p class="price"><b>Price:</b>{{ obj.price }}</p>
+          <p class="num-rooms"><b>Number of rooms:</b>{{ obj.num_rooms }} rooms</p>
+          <p class="area"><b>Area:</b>{{ obj.area }} sqm</p>
+          <p class="area"><b>Description:</b>{{ obj.description | truncatechars:65 }} </p>
+      </div>
+      <div class="property-image">
+          <a href="{% url 'display_property' pk=obj.pk %}">
+            <img src="{{ obj.images.all.0.image.url }}" alt="{{ obj.title }}">
+          </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="filter-on-map">
+<form method="get" class="form-inline" name="filter-form">
+  <div class="form-group">
+    <label for="{{form.id_rent_buy.id_for_label}}">&nbsp;&nbsp;{{form.id_rent_buy.label}}</label>
+    &nbsp;&nbsp;{{form.id_rent_buy}}
+  </div>
+
+  <div class="form-group">
+    <label for="{{form.id_type_of_property.id_for_label}}">{{form.id_type_of_property.label}}</label>
+    {{form.id_type_of_property}}
+  </div>
+
+  <div class="form-group">
+    <label for="{{form.min_price.id_for_label}}">{{form.min_price.label}}</label>
+    {{form.min_price}}
+  </div>
+
+  <div class="form-group">
+    <label for="{{form.max_price.id_for_label}}">{{form.max_price.label}}</label>
+    {{form.max_price}}
+  </div>
+
+  <div class="form-group">
+    <label for="{{form.min_num_rooms.id_for_label}}">{{form.min_num_rooms.label}}</label>
+    {{form.min_num_rooms}}
+  </div>
+
+  <div class="form-group">
+    <label for="{{form.max_num_rooms.id_for_label}}">{{form.max_num_rooms.label}}</label>
+    {{form.max_num_rooms}}
+  </div>
+
+
+      <script>
+        var expanded = false;
+
+        function showCheckboxes() {
+          var checkboxes = document.getElementById("checkboxes");
+          if (!expanded) {
+            checkboxes.style.display = "block";
+            expanded = true;
+          } else {
+            checkboxes.style.display = "none";
+            expanded = false;
+          }
+        }
+      </script>
+
+        <div class="form-group">
+          <div class="selectBox" onclick="showCheckboxes()">
+            <select>
+              <option>Advanced option</option>
+            </select>
+            <div class="overSelect"></div>
+          </div>
+          <div id="checkboxes">
+            <label for="furniture">
+              <input type="checkbox" id="furniture" />Furniture: {{form.furniture}}</label>
+            <label for="elevator">
+              <input type="checkbox" id="elevator" />Elevator: {{form.elevator}}</label>
+            <label for="balcony">
+              <input type="checkbox" id="balcony" />Balcony: {{form.balcony}}</label>
+            <label for="swimming_pool">
+              <input type="checkbox" id="swimming_pool" />Swimming pool: {{form.swimming_pool}}</label>
+            <label for="renovated">
+              <input type="checkbox" id="renovated" />Renovated: {{form.renovated}}</label>
+            <label for="storage">
+              <input type="checkbox" id="storage" />Storage: {{form.storage}}</label>
+            <label for="disable_access">
+              <input type="checkbox" id="disable_access" />Disable access: {{form.disable_access}}</label>
+            <label for="safe_room">
+              <input type="checkbox" id="safe_room" />Safe room: {{form.safe_room}}</label>
+            <label for="central_air_conditioner">
+              <input type="checkbox" id="central_air_conditioner"/>Central air conditioner: {{form.central_air_conditioner}}</label>
+            <label for="quiet_neighborhood">
+              <input type="checkbox" id="quiet_neighborhood" />Quiet neighborhood: {{form.quiet_neighborhood}}</label>
+          </div>
+        </div>
+
+    <input type="submit" name="filter-form">
+
+</form>
+</div>
+
+</body>

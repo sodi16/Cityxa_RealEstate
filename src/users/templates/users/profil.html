@@ -1,0 +1,46 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+
+<div class="profil-page">
+  <div class="profile-header">
+    <img src="{{ user.profil_picture.url }}" alt="Profile picture">
+    <h1>{{ user.username }}</h1>
+  </div>
+  <ul class="profile-details">
+    {% if user.first_name %}
+      <li><span>First Name:</span>{{ user.first_name }}</li>
+    {% endif %}
+    {% if user.last_name %}
+      <li><span>Last Name:</span>{{ user.last_name }}</li>
+    {% endif %}
+
+    {% if user.adress %}
+      <li><span>Address:</span>{{ user.address }}</li>
+    {% endif %}
+    <li><span>Phone number:</span>{{ user.phone_number }}</li>
+    <li><span>Creation date:</span>{{ user.date_joined|date:"F j, Y" }}</li>
+    {% if user.birthdate %}
+      <li><span>Birthdate:</span>{{ user.birthdate|date:"F j, Y" }}</li>
+    {% endif %}
+  </ul>
+  <div class="classic_button">
+    <a href="{% url 'update_profile' user.pk %}">Update profil</a>
+  </div>
+
+  <h2>Houses you own:</h2>
+  <div class="houses">
+    {% for prop in user.properties.all %}
+    <div class="house-card">
+      <a href="{% url 'display_property' pk=prop.pk %}"><img src="{{ prop.images.all.0.image.url }}" alt="{{ house.title }}">
+      <h2>{{ prop.adress }}</h2></a>
+      <p><b>{{ prop.description }}</b></p>
+        <p><b>Price:</b> {{prop.price}} | <b> Bedrooms: </b>{{ prop.num_rooms }} | <b>Area:</b> {{prop.area}}</p>
+    </div>
+    {% endfor %}
+  </div>
+    <div class="classic_button">
+        <a href="{% url 'add_property' %}">Add property</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,366 @@
+body {
+	margin: 0;
+	font-family: 'Montserrat', sans-serif;
+	background-color: #808080;
+}
+
+header {
+	background-color: #000000;
+	height: 80px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 50px;
+}
+
+.logo img {
+	height: 80px;
+}
+
+nav ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+}
+
+nav li {
+	margin: 0 20px;
+}
+
+nav a {
+	color: #fff;
+	text-decoration: none;
+}
+
+nav a:hover {
+	color: #000;
+}
+
+
+.register/login {
+    margin: 0 20px;
+}
+
+.register/login a {
+    color: #ffffff;
+}
+
+.main {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 50px;
+}
+
+.search-page {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 50px;
+}
+
+
+.search-page a {
+	height: 40px;
+	font-size: 18px;
+	background-color: #f0b3ff;
+	color: #fff;
+	border: none;
+	border-radius: 0 20px 20px 0;
+	padding: 0 20px;
+	cursor: pointer;
+}
+
+.search-page a:hover {
+	background-color: #000;
+}
+
+.intro {
+	text-align: center;
+	margin-bottom: 50px;
+}
+
+.intro h1 {
+	font-size: 48px;
+	margin-bottom: 20px;
+}
+
+.intro p {
+	font-size: 24px;
+	color: #f0b3ff;
+}
+
+.featured-properties {
+	margin-bottom: 50px;
+}
+
+.featured-properties h2 {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.property-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.property {
+	width: 30%;
+	margin-bottom: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    overflow: hidden;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.property img {
+	width: 290px;
+	height: 350px;
+	object-fit: cover;
+}
+
+.property h3 {
+	font-size: 24px;
+	margin: 20px 0 10px 0;
+}
+
+.property p {
+	font-size: 18px;
+	color: #f0b3ff;
+}
+
+.why-choose-us {
+	background-color: #f0b3ff;
+	color: #fff;
+	padding: 50px;
+}
+
+.why-choose-us h2 {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.why-choose-us ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: 24px;
+}
+
+.why-choose-us li {
+	margin: 20px 0;
+}
+
+.contact-us {
+	margin-bottom: 50px;
+}
+
+.contact-us h2 {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.contact-us form {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.contact-us label {
+	font-size: 18px;
+	display: block;
+	margin-bottom: 10px;
+}
+
+.contact-us input,
+.contact-us textarea {
+	width: 100%;
+	padding: 10px;
+	font-size: 18px;
+	border: none;
+	border-radius: 5px;
+	margin-bottom: 20px;
+}
+
+.contact-us button {
+	background-color: #f0b3ff;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	font-size: 18px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.contact-us button:hover {
+	background-color: #
+}
+
+.checkbox_cls {
+    height: 20px;
+}
+
+.form-control input {
+    size: 200px;
+}
+
+.registerbtn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.registerbtn:hover {
+  opacity: 1;
+}
+
+.signin {
+  background-color: #f1f1f1;
+  text-align: center;
+}
+
+.form-container {
+background-color: #fff;
+max-width: 500px;
+margin: 0 auto;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+.form-container h2 {
+margin-top: 0;
+font-size: 28px;
+font-weight: bold;
+text-align: center;
+}
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container textarea {
+width: 90%;
+padding: 12px;
+margin: 8px 0;
+border: none;
+border-radius: 4px;
+box-sizing: border-box;
+background-color: #f8f8f8;
+}
+.form-container input[type="submit"] {
+background-color: #f0b3ff;
+color: #fff;
+padding: 12px 20px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+font-size: 10px;
+font-weight: bold;
+}
+.form-container input[type="submit"]:hover {
+background-color: red;
+}
+
+
+.searched_houses {
+    display: inline-block;
+}
+
+.classic_button {
+     padding: 10px 20px;
+     border-radius: 8px;
+     box-shadow: 2px 2px 2px 1px rgb(131, 131, 219) ;
+     border: 1px solid gray;
+     font-size: 15px;
+     width: 100px;
+ }
+
+ .profil-page {
+  background-color: #fff;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+.houses {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.houses > div {
+  flex: 45%;
+  margin-bottom: 10px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+}
+
+.profile-header img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.profile-header h1 {
+  font-size: 36px;
+}
+
+.profile-details {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.profile-details li {
+  list-style: none;
+  margin-right: 30px;
+  margin-bottom: 20px;
+}
+
+.profile-details li span {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* Houses styles */
+.house-card {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+
+.house-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.house-card h2 {
+  font-size: 24px;
+  margin: 20px;
+}
+
+.house-card p {
+  margin: 20px;
+}
+
+@media (min-width: 768px) {
+  .house-card {
+    flex-basis: calc(50% - 10px);
+    margin-right: 20px;
+  }
+
+  .house-card:last-child {
+    margin-right: 0;
+  }
