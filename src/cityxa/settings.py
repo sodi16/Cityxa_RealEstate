@@ -11,19 +11,25 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
+import environ
+
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+api_key = env('api_key')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4!ans)5s&g^5n*a2f^be_%7b$!(hhmhi8=wabli3m1t&th!cwl'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -80,9 +86,9 @@ WSGI_APPLICATION = 'cityxa.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db_cityxa',
-        'USER': 'userdb_cityxa',
-        'PASSWORD': 'sodi',
+        'NAME': env('DATABASENAME'),
+        'USER': env('DATABASEUSER'),
+        'PASSWORD': env('DATABASEPASSWORD'),
         'HOST': 'localhost',
     }
 }

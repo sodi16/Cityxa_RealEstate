@@ -1,4 +1,4 @@
-from env.api_key import api_key
+from cityxa.settings import api_key
 
 
 def get_api_key(request):
