@@ -12,7 +12,7 @@ class Adress(models.Model):
     latitude = models.FloatField(default=0.0)
 
     def __str__(self):
-        return f'{self.street}, {self.city} {self.country}'
+        return f'{self.street} {self.num_apt}, {self.city} {self.country}'
 
 
 class Role(models.Model):

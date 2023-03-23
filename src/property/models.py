@@ -64,9 +64,15 @@ class Property(models.Model):
     def __str__(self):
         return f'{self.num_rooms} bedrooms in {self.adress.city}, {self.adress.country}'
 
+    @property
     def display_rent_buy(self):
         return str(self.rent_buy_choices[int(self.id_rent_buy)-1][1])
 
+    @property
     def display_type_of_property(self):
         return str(self.type_of_property[int(self.id_type_of_property)-1][1]).capitalize()
+
+    @property
+    def display_adress(self):
+        return str(self.adress)
 

@@ -7,6 +7,10 @@ from property.forms import AddPropertyForm, AddAdressForm
 from users.models import Adress
 from django.db.models import F, Func
 
+# api import
+from rest_framework.decorators import api_view
+from property.serializers import PropertySerializer
+from rest_framework.response import Response
 
 
 def add_property(request):
@@ -196,3 +200,12 @@ class UpdatePropertyView(UpdateView):
     form_class = AddPropertyForm
     template_name = 'property/add_property.html'
 
+
+@api_view(['GET'])
+def api_property_list(request):
+    """
+    Use the api to get the properties data
+    """
+    properties = Property.objects.all()
+    serializer = PropertySerializer(properties, many=True)
+    return Response(serializer.data)

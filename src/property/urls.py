@@ -1,6 +1,5 @@
 from django.urls import path, include
-from users.views import register, Login
-from property.views import add_property, display_property, search_property, DeletePropertyView, UpdatePropertyView
+from property.views import add_property, display_property, search_property, DeletePropertyView, UpdatePropertyView, api_property_list
 
 
 
@@ -10,4 +9,5 @@ urlpatterns = [
     path('delete-<int:pk>/', DeletePropertyView.as_view(), name='delete_property'),
     path('update-<int:pk>/', UpdatePropertyView.as_view(), name='update_property'),
     path('search/', search_property, name='search_property'),
+    path('api/', api_property_list)
 ]
