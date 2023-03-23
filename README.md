@@ -8,6 +8,10 @@ I use Google API for maps display and real adress, places search on globe.
 </br>
 I invite you to watch the short video I added above to see more options and possibilities of the website. 
 
+
+https://user-images.githubusercontent.com/56579257/227270258-c950c6a6-d273-4459-9604-55818732a9c5.mp4
+
+
 ### Technologies:
 - Python 3.9
 - Django 4.1.7 + djangorestframework 3.14.0
