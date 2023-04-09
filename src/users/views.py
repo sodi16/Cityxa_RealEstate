@@ -3,8 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.views.generic import DetailView, ListView, UpdateView
+from rest_framework.views import APIView
+from rest_framework.response import Response
+import requests
 
-from property.forms import AddAdressForm
 from users.models import User
 from users.forms import RegisterForm, UpdateProfileForm, AddAdressForm
 
@@ -57,3 +59,10 @@ class UpdateProfilView(UpdateView):
     context_object_name = 'form'
     extra_context = {'adress_form': AddAdressForm}
 
+
+class UserListAPI(APIView):
+    def get(self, request):
+        user_api_url = 'http://127.0.0.1:8000/property/api/'
+        response = requests.get(user_api_url)
+        users_data = response.json()
+        return Response(users_data)
